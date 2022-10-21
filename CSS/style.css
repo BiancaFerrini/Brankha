@@ -8,31 +8,31 @@ h1 {
   margin-top: 0;
   font-size: 5.625rem;
   font-family: 'Nanum Gothic Coding', monospace;
-  color: #52734D;
+  color: #980F5A;
   line-height: 2.5;
 }
 
 h2 {
   font-family: 'Nanum Gothic Coding', monospace;
   font-size: 1.25rem;
-  color: #66806A;
+  color: #980F5A;
   line-height: 1;
 }
 
 h3 {
   font-family: 'Nanum Gothic Coding', monospace;
-  color: #7C9473;
+  color:#980F5A ;
 }
 
 hr {
   border-style: dotted none none none;
   width: 3%;
   border-top-width: 7px;
-  color: #99A799;
+  color: #980F5A;
 }
 
 .top-container {
-  background-color: #DDFFBC;
+  background-color: #570530;
   position: relative;
   width: 100%;
   height: 100%;
@@ -40,12 +40,12 @@ hr {
 }
 
 .middle-container {
-  background-color: #D3E4CD;
+  background-color: #FFD1D1;
   padding-top: 10px
 }
 
 .bottom-container {
-  background-color: #DDFFBC;
+  background-color: #FFD1D1;
   position: relative;
 padding: 10px 10px 10px 10px;
 }
@@ -56,10 +56,10 @@ padding: 10px 10px 10px 10px;
   line-height: 2;
 }
 
-.girl-img {
+.woman-img {
   padding-top: 10px;
   margin-top: 20px;
-  background-color: #99A799;
+  background-color: #FFD1D1;
   border-radius: 100%;
 }
 
