@@ -82,7 +82,7 @@ padding: 10px 10px 10px 10px;
   bottom: 0;
   padding-top: 100px;
 }
-.ing-img{
+.disenio-img{
   float: left;
   margin-right:  30px;
 
@@ -104,11 +104,11 @@ padding: 10px 10px 10px 10px;
 }
 
 .btn{
-  background: #DDFFBC;
+  background: #803156;
   border-radius: 8px;
   font-family: 'Nanum Gothic Coding', monospace;
   font-size: 15px;
-  color:#52734D;
+  color:#FFD1D1;
   text-decoration: none;
   padding: 10px 10px 10px 10px;
 
@@ -121,5 +121,5 @@ padding: 10px 10px 10px 10px;
     padding-right: 100px;
 }
 a:hover{
-  color: #96CEB4;
+  color: #FFD1D1;
 }
