@@ -19,38 +19,15 @@ prodArray.push(prod4)
 let subTotal = 0
 while(comprar === 1){
     let prod=parseInt(prompt('Elija un producto: 1. Pulsera / 2. Collar / 3. Tobillera / 4. Diseño'));
-      /*  if(prod===prod1.id_product && prod1.stock > 0){
-            subTotal = subTotal + prod1.price;
-            prod1.stock = prod1.stock - 1;
-            alert('El precio es '+subTotal);
-            comprar=parseInt(prompt('Quieres seguir comprando? 1. Si / 2. No'))
-        } else if(prod === prod2.id_product && prod2.stock > 0){
-            subTotal = subTotal + prod2.price;
-            prod2.stock = prod2.stock - 1;
-            alert('El precio es '+subTotal);
-            comprar=parseInt(prompt('Quieres seguir comprando? 1. Si / 2. No'))
-        } else if(prod === prod3.id_product && prod3.stock > 0){
-            subTotal = subTotal + prod3.price;
-            prod3.stock = prod3.stock - 1;
-            alert('El precio es '+subTotal);
-            comprar=parseInt(prompt('Quieres seguir comprando? 1. Si / 2. No'))
-        }else if(prod === prod4.id_product && prod4.stock > 0){
-            subTotal = subTotal + prod4.price;
-            prod4.stock = prod4.stock - 1;
-            alert('El precio es '+subTotal);
-            comprar=parseInt(prompt('Quieres seguir comprando? 1. Si / 2. No'))
-        } else {
-        comprar=parseInt(prompt('Quieres seguir comprando? 1. Si / 2. No'))
-        }*/
-        if(prodArray[prod-1].stock > 0){
-            subTotal=subTotal + prodArray[prod-1].price;
-            prodArray[prod-1].stock = prodArray[prod-1].stock - 1;
-            alert('El precio del producto seleccionado es '+prodArray[prod-1].price);
-            alert('El subtotal de tu compra es: '+subTotal);
-        }else {
-            alert('No hay stock del producto seleccionado');
-        }    
-        comprar=parseInt(prompt('Quieres seguir comprando? 1. Si / 2. No'))
+    if(prodArray[prod-1].stock > 0){
+        subTotal=subTotal + prodArray[prod-1].price;
+        prodArray[prod-1].stock = prodArray[prod-1].stock - 1;
+        alert('El precio del producto seleccionado es '+prodArray[prod-1].price);
+        alert('El subtotal de tu compra es: '+subTotal);
+    }else {
+        alert('No hay stock del producto seleccionado');
+    }    
+    comprar=parseInt(prompt('Quieres seguir comprando? 1. Si / 2. No'))
 }
 let cod_desc = parseInt(prompt('Tienes un codigo de descuento? 1. Si / 2. No'))
 if(cod_desc === 1){
