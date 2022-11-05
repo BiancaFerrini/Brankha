@@ -1,52 +1,76 @@
 let comprar = parseInt(prompt('Desea comprar un accesorio o diseño? 1. Si / 2. No'))
 class Producto {
-    constructor(name,id_product,price,stock){
+    constructor(name,idProduct,price,stock){
     this.name=name;
-    this.id_product=id_product;
+    this.idProduct=idProduct;
     this.price=price;
     this.stock=stock;
     }
 }
-const prodArray = [];
-const prod1 = new Producto('Pulsera',1,400,5);
-prodArray.push(prod1);
-const prod2 = new Producto('collar',2,1200,7);
-prodArray.push(prod2);
-const prod3 = new Producto('Tobillera',3,300,4);
-prodArray.push(prod3);
-const prod4 = new Producto('Diseño',4,3000,1);
-prodArray.push(prod4)
-let subTotal = 0
+
+class Carrito {
+    constructor(){
+        this.items = []
+        this.discount = {code: '', discount: 0}
+    }
+
+    addItem(item){
+        this.items.push(item)
+        item.stock = item.stock - 1
+    }
+
+    setDiscount(discountCode){
+        const CODES = [{code: "BRANKHAAMIGO", discount: 0.20}, {code: "BIENVENIDA10", discount: 0.10}]
+        const disc = CODES.find(c => c.code === discountCode)
+        if(disc){
+            this.discount = disc
+            return true
+        }
+        else {
+            console.warn("ERROR: Wrong discount code.")
+            return false
+        }
+    }
+
+    getTotal(){
+        const subTotal = this.items.map(item => item.price).reduce((total, current) => {return total + current}, 0)
+        const total = subTotal * (1-this.discount.discount)
+        return total
+    }
+}
+
+const prodArray = [
+    new Producto('Pulsera',1,400,5),
+    new Producto('collar',2,1200,7),
+    new Producto('Tobillera',3,300,4),
+    new Producto('Diseño',4,3000,1)
+];
+
+const carrito = new Carrito()
 while(comprar === 1){
-    let prod=parseInt(prompt('Elija un producto: 1. Pulsera / 2. Collar / 3. Tobillera / 4. Diseño'));
-    if(prodArray[prod-1].stock > 0){
-        subTotal=subTotal + prodArray[prod-1].price;
-        prodArray[prod-1].stock = prodArray[prod-1].stock - 1;
-        alert('El precio del producto seleccionado es '+prodArray[prod-1].price);
-        alert('El subtotal de tu compra es: '+subTotal);
-    }else {
-        alert('No hay stock del producto seleccionado');
+    let prod = parseInt(prompt('Elija un producto: 1. Pulsera / 2. Collar / 3. Tobillera / 4. Diseño'));
+    if(prod > 4 || prod < 1){
+        console.warn("ERROR: Product ID invalid")
+        continue
+    }
+    const selectedProduct = prodArray.find( producto => producto.idProduct === prod)
+    if(selectedProduct.stock){
+        console.log(`El precio del producto es ${selectedProduct.price}`)
+        carrito.addItem(selectedProduct)
+        console.log(`El subtotal es ${carrito.getTotal()}`) // alt + flechita // alt + shift + flechita
+    } else {
+        console.log('No hay stock del producto seleccionado');
     }    
     comprar=parseInt(prompt('Quieres seguir comprando? 1. Si / 2. No'))
 }
-let cod_desc = parseInt(prompt('Tienes un codigo de descuento? 1. Si / 2. No'))
-if(cod_desc === 1){
+let hasDiscount = parseInt(prompt('Tienes un codigo de descuento? 1. Si / 2. No'))
+if(hasDiscount === 1){
     let desc = prompt('Ingrese codigo de descuento: ');
-    subTotal = descuento(subTotal,desc);
-    alert('El total de su compra es: '+subTotal);
-}else {
-    alert('El total de su compra es :'+subTotal);
-}
-function descuento(monto,desc){
-    if(desc === 'DESCU1'){
-        monto = monto * 0.85;
-        return monto;
-    } else if(desc === 'BRANKHAAMIGO'){
-        monto = monto * 0.80;
-        return monto;
-    }else{
-        alert('El codigo de descuento es incorrecto');
-        return monto;
+    if(carrito.setDiscount(desc)){
+        console.log("Descuento aplicado")
+    } else {
+        console.log("Codigo invalido")
     }
 }
-alert('Gracias por su compra');
+console.log(`El total de su compra es: ${carrito.getTotal()}`);
+console.log('Gracias por su compra');
