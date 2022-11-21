@@ -105,3 +105,9 @@ padding: 10px 10px 10px 10px;
 a:hover{
   color: #FFD1D1;
 }
+.ecommerce-buttom{
+  background-color: #FFD1D1;
+  position: relative;
+  padding: 10px 10px 10px 10px;
+}
+

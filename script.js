@@ -1,4 +1,4 @@
-let comprar = parseInt(prompt('Desea comprar un accesorio o diseño? 1. Si / 2. No'))
+//Clase producto
 class Producto {
     constructor(name,idProduct,price,stock){
     this.name=name;
@@ -8,6 +8,7 @@ class Producto {
     }
 }
 
+//Clase carrito
 class Carrito {
     constructor(){
         this.items = []
@@ -15,10 +16,15 @@ class Carrito {
     }
 
     addItem(item){
-        this.items.push(item)
-        item.stock = item.stock - 1
+        if(item.stock > 0){
+            this.items.push(item)
+            item.stock = item.stock - 1
+            return true
+        } else {
+            return false
+        }
     }
-
+//Funcion setDiscount calcula segun el codigo de descuento, el total
     setDiscount(discountCode){
         const CODES = [{code: "BRANKHAAMIGO", discount: 0.20}, {code: "BIENVENIDA10", discount: 0.10}]
         const disc = CODES.find(c => c.code === discountCode)
@@ -27,15 +33,26 @@ class Carrito {
             return true
         }
         else {
-            console.warn("ERROR: Wrong discount code.")
+            this.discount = {code: '', discount: 0}
             return false
         }
     }
 
+    //Funcion getTotal calcula el total de los items
+    getSubTotal(){
+        return this.items.map(item => item.price).reduce((total, current) => {return total + current}, 0)
+    }
+
+    //Funcion getTotal calcula el total de los items
     getTotal(){
         const subTotal = this.items.map(item => item.price).reduce((total, current) => {return total + current}, 0)
         const total = subTotal * (1-this.discount.discount)
         return total
+    }
+
+    reset(){
+        this.items = []
+        this.discount = {code: '', discount: 0}
     }
 }
 
@@ -47,30 +64,91 @@ const prodArray = [
 ];
 
 const carrito = new Carrito()
-while(comprar === 1){
-    let prod = parseInt(prompt('Elija un producto: 1. Pulsera / 2. Collar / 3. Tobillera / 4. Diseño'));
-    if(prod > 4 || prod < 1){
-        console.warn("ERROR: Product ID invalid")
-        continue
+
+function domInit(){
+    // Rellenar select
+    const selectedProd = document.getElementById('lista')
+    prodArray.forEach((elemento) => {
+        const optionProd = document.createElement('option')
+        optionProd.innerText = `${elemento.name}: $${elemento.price}`
+        optionProd.setAttribute('id', `${elemento.idProduct}`)
+        optionProd.setAttribute('value', `${elemento.idProduct}`)
+        selectedProd.appendChild(optionProd)
+      })
+
+    // Agregar producto
+    const addProdButton = document.getElementById('addProd');
+    addProdButton.onclick = () => {
+        // console.log("add prod -->", selectedProd.value)
+        // Forma larga
+        // const product = prodArray.find( (producto) => {
+        //     if(selectedProd.value === producto.idProduct){
+        //         return true;
+        //     }else {
+        //         return false;
+        //     }
+
+        // })
+        
+        // Forma corta
+        const selectedProductId = parseInt(selectedProd.value)
+        const product = prodArray.find( product => selectedProductId === product.idProduct )
+        if(carrito.addItem(product)){
+            const listaProd = document.getElementById('carritoItems')
+            // Vacio la lista
+            listaProd.innerHTML = ''
+            // Agrego los productos que estan en el carrito
+            carrito.items.forEach((item) => {
+                const elemento = document.createElement('li')
+                elemento.innerText= `${item.name}: $${item.price}` 
+                listaProd.appendChild(elemento)
+
+            })
+            // Actualizamos el total de la compra
+            updateTotalDOM(carrito)
+        } else {
+            console.warn("ERROR: No hay mas stock del producto.")
+        }
+
     }
-    const selectedProduct = prodArray.find( producto => producto.idProduct === prod)
-    if(selectedProduct.stock){
-        console.log(`El precio del producto es ${selectedProduct.price}`)
-        carrito.addItem(selectedProduct)
-        console.log(`El subtotal es ${carrito.getTotal()}`) // alt + flechita // alt + shift + flechita
-    } else {
-        console.log('No hay stock del producto seleccionado');
-    }    
-    comprar=parseInt(prompt('Quieres seguir comprando? 1. Si / 2. No'))
-}
-let hasDiscount = parseInt(prompt('Tienes un codigo de descuento? 1. Si / 2. No'))
-if(hasDiscount === 1){
-    let desc = prompt('Ingrese codigo de descuento: ');
-    if(carrito.setDiscount(desc)){
-        console.log("Descuento aplicado")
-    } else {
-        console.log("Codigo invalido")
+
+    // Set discount code
+    const validar = document.getElementById('validarDesc')
+    validarDesc.onclick = () =>{
+        const discountCode = document.getElementById('discountCode').value
+        if(carrito.setDiscount(discountCode)) {
+            // Actualizamos el total de la compra
+            updateTotalDOM(carrito)
+        } else {
+            console.warn("ERROR: Wrong discount code.")
+        }
+    }
+
+    // Finalizar la compra
+    const finalizar = document.getElementById('finalizar')
+    finalizar.onclick = () => {
+        console.log(`El total de su compra es: ${carrito.getTotal()}`);
+        console.log('Gracias por su compra');
+        // Reseteo carrito y DOM
+        resetCarrito(carrito)
     }
 }
-console.log(`El total de su compra es: ${carrito.getTotal()}`);
-console.log('Gracias por su compra');
+
+domInit()
+
+function updateTotalDOM(carrito){
+    // Actualizamos el total de la compra
+    const totalCarrito = document.getElementById('carritoTotal')
+    if(carrito.discount.code) {
+        totalCarrito.innerHTML = `$${carrito.getSubTotal()} ---> <b>$${carrito.getTotal()}</b>`
+    } else {
+        totalCarrito.innerHTML = `$${carrito.getTotal()}`
+    }
+}
+
+function resetCarrito(carrito){
+    carrito.reset()
+    document.getElementById('carritoItems').innerHTML = ''
+    document.getElementById('discountCode').innerHTML = ''
+    updateTotalDOM()
+}
