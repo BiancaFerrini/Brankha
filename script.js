@@ -152,3 +152,21 @@ function resetCarrito(carrito){
     document.getElementById('discountCode').innerHTML = ''
     updateTotalDOM()
 }
+//Formulario usuario
+const formUser = document.getElementById('formulario')
+const titulo = document.getElementById('titulo')
+const nameUser = document.getElementById('nombre')
+const secondNameUser = document.getElementById('apellido')
+const infoUser = {}
+formUser.onsubmit = (e) =>{
+    e.preventDefault(),
+    infoUser.nombre = nameUser.value,
+    infoUser.apellido = secondNameUser.value,
+    localStorage.setItem('infoUser',JSON.stringify(infoUser))
+}
+
+const userStorage = JSON.parse(localStorage.getItem('infoUser'))
+console.log(userStorage)
+if(userStorage.nombre !== "" || userStorage.apellido !== ""){
+    titulo.innerText = `Hola nuevamente, ${userStorage.nombre} ${userStorage.apellido}`
+} 
