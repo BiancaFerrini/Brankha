@@ -152,6 +152,7 @@ function resetCarrito(carrito){
     document.getElementById('discountCode').innerHTML = ''
     updateTotalDOM()
 }
+
 //Formulario usuario
 const formUser = document.getElementById('formulario')
 const titulo = document.getElementById('titulo')
