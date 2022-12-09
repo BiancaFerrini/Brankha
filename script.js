@@ -119,8 +119,25 @@ function domInit(){
         if(carrito.setDiscount(discountCode)) {
             // Actualizamos el total de la compra
             updateTotalDOM(carrito)
+            Toastify({
+                text: 'Codigo correcto' ,
+                duration: 3000,
+                position: "right",
+                style: {
+                    background: "linear-gradient(to right, #749F82, #425F57)",
+                  },
+            }).showToast()
+            
         } else {
             console.warn("ERROR: Wrong discount code.")
+            Toastify({
+                text: 'Codigo incorrecto' ,
+                duration: 3000,
+                position: "right",
+                style: {
+                    background: "linear-gradient(to right, #CC3636, #F57328)",
+                  },
+            }).showToast()
         }
     }
 
