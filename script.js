@@ -1,3 +1,4 @@
+
 //Clase producto
 class Producto {
     constructor(name,idProduct,price,stock){
@@ -167,7 +168,7 @@ function resetCarrito(carrito){
     carrito.reset()
     document.getElementById('carritoItems').innerHTML = ''
     document.getElementById('discountCode').innerHTML = ''
-    updateTotalDOM()
+    updateTotalDOM(carrito)
 }
 
 //Formulario usuario
@@ -188,3 +189,12 @@ console.log(userStorage)
 if(userStorage.nombre !== "" || userStorage.apellido !== ""){
     titulo.innerText = `Hola nuevamente, ${userStorage.nombre} ${userStorage.apellido}`
 } 
+//Asincronismo
+const finalizarButton=document.getElementById('finalizar')
+finalizarButton.onclick=(event)=>{
+    event.target.disabled=true
+    event.target.innerText='PROCESANDO...'
+    setTimeout(() => {
+        event.target.innerText='Compra Finalizada'
+      }, 3000)
+}
